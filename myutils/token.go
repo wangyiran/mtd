@@ -50,18 +50,18 @@ func BuildTokenData(username string, userpassword string, token string) *TokenDa
 	}
 }
 
-func ParseToken(token string) error {
+func ParseToken(token string) (*Claim, error) {
 	tokenClaims, err := jwt.ParseWithClaims(token, &Claim{}, func(t *jwt.Token) (interface{}, error) {
 		return TokenKey, nil
 	})
 	if tokenClaims != nil {
 		claims, ok := tokenClaims.Claims.(*Claim)
 		if ok && tokenClaims.Valid {
-			return nil
+			return claims, nil
 		}
 		if time.Now().Unix() > claims.ExpiresAt {
-			return errors.New("过期")
+			return nil, errors.New("过期")
 		}
 	}
-	return err
+	return nil, err
 }

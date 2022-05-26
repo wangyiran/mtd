@@ -18,14 +18,13 @@ func NewRouter() *gin.Engine {
 	{
 		v1.POST("/user/register", api.UserRegister)
 		v1.POST("/user/login", api.UserLogin)
-		author := v1.Group("/")
-		author.Use(middleware.JWT())
+		v2 := v1.Group("/")
+		v2.Use(middleware.JWT())
 		{
-			author.GET("test", func(ctx *gin.Context) {
-				ctx.JSON(200, gin.H{
-					"msg": "ok",
-				})
-			})
+			v2.POST("/task", api.CreateTask)
+			v2.GET("/list", api.ShowList)
+			v2.POST("/update", api.UpdateTask)
+			v2.POST("/delete", api.DeleteTask)
 		}
 	}
 
