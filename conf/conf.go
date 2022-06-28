@@ -28,7 +28,12 @@ func LoadConfig() {
 	//使用file里的参数初始化服务器以及mysql的参数
 	LoadServer(file)
 	LoadMysql(file)
+	//Host := os.Getenv("MYSQL_HOST")
 	connPath := strings.Join([]string{MysqlUser, ":", MysqlPassword, "@tcp(", MysqlHost, MysqlPort, ")/", MysqlDBName, "?charset=utf8mb4&parseTime=True"}, "")
+	//connPath2 := strings.Join([]string{MysqlUser, ":", MysqlPassword, "@tcp(", MysqlHost, MysqlPort, ")/", MysqlDBName, "?charset=utf8mb4&parseTime=True"}, "")
+
+	//fmt.Println("XXX", connPath)
+	//panic(connPath)
 	model.DataBase(connPath)
 	//数据库迁移
 	if err := model.Migrator(); err != nil {

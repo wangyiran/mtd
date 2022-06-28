@@ -1,0 +1,42 @@
+version: "3"
+
+ 
+
+services:
+
+  staticip:
+
+    image: hahaha:latest
+
+    container_name: ms01
+
+    ports:
+
+      - "3300:3000"
+    environment:
+        MYSQL_HOST: 172.19.0.2
+
+    depends_on: 
+
+      - mysql
+
+ 
+
+  
+
+  mysql:
+
+    image: mysql:latest
+
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_DATABASE: WYR
+    ports:
+
+       - "3200:3306"
+    command: --init-file /data/application/init.sql
+    volumes:
+        - ./init.sql:/data/application/init.sql
+
+
+ 
